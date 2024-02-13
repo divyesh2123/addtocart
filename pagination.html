@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="button"></div>
+    <select>
+        <option>50</option>
+        <option>100</option>
+        <option>150</option>
+        <option>200</option>
+    </select>
+    <table id="display"></table>
+
+    <script>
+
+        let data = [];
+
+    
+
+        fetch("https://jsonplaceholder.typicode.com/comments").then(y=>y.json())
+        .then(y=>{
+
+            data=y;
+            displayPagination(y);
+            pagination(1);
+        })
+
+
+        const displayPagination = (data)=>{
+
+            for(let i=1;i<=data.length/50;i++)
+            {
+
+                document.getElementById("button").innerHTML +=`<button onclick="pagination(${i})">${i}</button>` 
+            }
+
+        }
+
+        const pagination = (page)=>{
+
+            let start = (page-1)*50;
+            let end =  start + 50;
+
+            let p = data.slice(start,end);
+
+            console.log(p);
+            display(p);
+        }
+
+        const display = (p)=>{
+
+            let dd = p.map((value,index)=>{
+
+                return ( `<tr><td>${value.email}</td></tr>`)
+            })
+
+            console.log(dd);
+
+            document.getElementById("display").innerHTML = dd.join(" ");
+        }
+
+    </script>
+    
+</body>
+</html>
